@@ -1,0 +1,8 @@
+{
+  "title" : "maximal event",
+  "min_number_participants" : 10,
+  "max_number_participants" : 22,
+  "activity" : "football",
+  "localisation" : "Cornelia Street",
+  "organiser_id" : "123456"
+}
