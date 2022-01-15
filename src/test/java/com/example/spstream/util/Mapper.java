@@ -1,13 +1,16 @@
 package com.example.spstream.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.testcontainers.shaded.org.apache.commons.lang.ObjectUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Mapper {
 
@@ -16,13 +19,18 @@ public class Mapper {
         return ow.writeValueAsString(object);
     }
 
-    public static String readJsonFromFile(String filePath) throws IOException {
+    public static String readJsonFromFile(String filePath) throws IOException, NullPointerException {
         Path path = new File(Mapper.class.getClassLoader().getResource(filePath).getFile()).toPath();
         return Files.readString(Path.of(path.toUri()));
 
     }
 
-    public static <T> Object readObjectFromJson(String jsonString, Class<T> clazz ) throws JsonProcessingException {
+    public static <T> T readObjectFromJson(String jsonString, Class<T> clazz ) throws JsonProcessingException {
         return new ObjectMapper().readValue(jsonString, clazz);
+    }
+
+    public static <T> List<T> readObjectListFromJson(String jsonString, Class<T> clazz) throws JsonProcessingException {
+        return new ObjectMapper().readValue(jsonString, new TypeReference<List<T>>() {
+        });
     }
 }
