@@ -4,6 +4,7 @@ import com.example.spstream.entities.Event;
 import com.example.spstream.repositories.EventRepository;
 import com.example.spstream.repositories.UserRepository;
 import com.example.spstream.util.Mapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,9 +18,13 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.stream.StreamSupport;
 
 
 import static org.hamcrest.Matchers.containsString;
@@ -59,22 +64,32 @@ public class EventsCreationTest {
     }
 
     public void testCorrectEventCreationWithEvent(Event event) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/events")
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/events")
                         .content(Mapper.writeObjectToJson(event))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.id").isString());
+                .andExpect(jsonPath("$.id").isString())
+                .andReturn();
+        String id = Mapper.readObjectFromJson(result.getResponse().getContentAsString(), Event.class).getId();
+        Event storedEvent = eventRepository.findById(id).get();
+        storedEvent.setDateTime(LocalDateTime.parse(dateTimeFormatter.format(storedEvent.getDateTime()),dateTimeFormatter));
+        event.setDateTime(LocalDateTime.parse(dateTimeFormatter.format(event.getDateTime()), dateTimeFormatter));
+        event.setId(id);
+        Assertions.assertEquals(event,storedEvent);
     }
 
     public void testIncorrectEventCreationWithEvent(Event event, String errorMessagePattern) throws Exception {
+        long initialNbOfEvents = StreamSupport.stream(eventRepository.findAll().spliterator(), false).count();
         mockMvc.perform(MockMvcRequestBuilders.post("/events")
                         .content(Mapper.writeObjectToJson(event))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(containsString(String.format(errorMessagePattern, event.getOrganiserId()))));
+        Assertions.assertEquals(initialNbOfEvents,StreamSupport.stream(eventRepository.findAll().spliterator(), false).count() );
     }
 
     /**

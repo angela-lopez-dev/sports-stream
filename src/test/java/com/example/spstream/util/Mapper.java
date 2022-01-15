@@ -26,11 +26,11 @@ public class Mapper {
     }
 
     public static <T> T readObjectFromJson(String jsonString, Class<T> clazz ) throws JsonProcessingException {
-        return new ObjectMapper().readValue(jsonString, clazz);
+        return new ObjectMapper().findAndRegisterModules().readValue(jsonString, clazz);
     }
 
     public static <T> List<T> readObjectListFromJson(String jsonString, Class<T> clazz) throws JsonProcessingException {
-        return new ObjectMapper().readValue(jsonString, new TypeReference<List<T>>() {
+        return new ObjectMapper().findAndRegisterModules().readValue(jsonString, new TypeReference<List<T>>() {
         });
     }
 }
