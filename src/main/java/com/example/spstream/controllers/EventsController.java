@@ -1,17 +1,17 @@
 package com.example.spstream.controllers;
 
+import com.example.spstream.dto.EventDTO;
 import com.example.spstream.entities.Event;
 import com.example.spstream.services.EventService;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/events")
@@ -19,19 +19,24 @@ public class EventsController {
     @Autowired
     private EventService eventService;
 
+    ModelMapper modelMapper = new ModelMapper();
+
     @PostMapping
-    public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {
-        return new ResponseEntity<>(eventService.createEvent(event), HttpStatus.CREATED);
+    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody Event event) {
+        EventDTO eventDTO = modelMapper.map(eventService.createEvent(event), EventDTO.class);
+        return new ResponseEntity<>(eventDTO, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
-        return new ResponseEntity<>(eventService.findAllEvents(), HttpStatus.OK);
+    public ResponseEntity<List<EventDTO>> getAllEvents(){
+        List<EventDTO> allEventsDTO = eventService.findAllEvents().stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+        return new ResponseEntity<>(allEventsDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable("id") String id){
-        return new ResponseEntity<>(eventService.findEvent(id), HttpStatus.OK);
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") String id){
+        EventDTO eventDTO = modelMapper.map(eventService.findEvent(id), EventDTO.class);
+        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
     }
 
 }

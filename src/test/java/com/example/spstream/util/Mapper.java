@@ -1,9 +1,12 @@
 package com.example.spstream.util;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import org.testcontainers.shaded.org.apache.commons.lang.ObjectUtils;
 
 import java.io.File;
@@ -30,7 +33,9 @@ public class Mapper {
     }
 
     public static <T> List<T> readObjectListFromJson(String jsonString, Class<T> clazz) throws JsonProcessingException {
-        return new ObjectMapper().findAndRegisterModules().readValue(jsonString, new TypeReference<List<T>>() {
-        });
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        //allows custom object collection unmarshalling
+        CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
+        return mapper.readValue(jsonString, listType);
     }
 }
