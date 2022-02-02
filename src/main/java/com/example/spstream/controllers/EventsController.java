@@ -28,6 +28,12 @@ public class EventsController {
         return new ResponseEntity<>(createdEventDTO, HttpStatus.CREATED);
     }
 
+    @DeleteMapping(value="{id}")
+    public ResponseEntity<EventDTO> deleteEvent(@PathVariable("id") String id){
+        eventService.deleteEvent(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents(){
         List<EventDTO> allEventsDTO = eventService.findAllEvents().stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
