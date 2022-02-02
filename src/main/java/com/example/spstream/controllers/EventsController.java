@@ -22,9 +22,10 @@ public class EventsController {
     ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping
-    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody Event event) {
-        EventDTO eventDTO = modelMapper.map(eventService.createEvent(event), EventDTO.class);
-        return new ResponseEntity<>(eventDTO, HttpStatus.CREATED);
+    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO) {
+        Event event = modelMapper.map(eventDTO, Event.class);
+        EventDTO createdEventDTO = modelMapper.map(eventService.createEvent(event), EventDTO.class);
+        return new ResponseEntity<>(createdEventDTO, HttpStatus.CREATED);
     }
 
     @GetMapping
