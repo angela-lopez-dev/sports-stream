@@ -3,8 +3,6 @@ package com.example.spstream.services;
 import com.example.spstream.entities.Event;
 import com.example.spstream.repositories.EventRepository;
 import com.example.spstream.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
