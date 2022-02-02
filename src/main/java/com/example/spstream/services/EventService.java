@@ -35,4 +35,9 @@ public class EventService {
         return eventRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("event %s does not exist", id)));
     }
 
+    public void deleteEvent(String id) {
+        if(! eventRepository.existsById(id))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("event %s does not exist", id));
+        eventRepository.deleteById(id);
+    }
 }
