@@ -1,6 +1,6 @@
 package com.example.spstream.controllers;
 
-import com.example.spstream.entities.User;
+import com.example.spstream.entities.EUser;
 import com.example.spstream.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class UsersController {
     private final UserService userService;
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
+    public ResponseEntity<EUser> getUserById(@PathVariable("id") String id) {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 }

@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Entity
-public class User {
+public class EUser {
     @JsonProperty("first_name")
     private String firstName;
     @JsonProperty("last_name")

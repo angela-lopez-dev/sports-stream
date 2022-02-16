@@ -1,5 +1,6 @@
 package com.example.spstream.controllers.events;
 
+import com.example.spstream.WithDBContainerTest;
 import com.example.spstream.entities.Event;
 import com.example.spstream.repositories.EventRepository;
 import com.example.spstream.repositories.UserRepository;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
-public class EventsCreationTest {
+public class EventsCreationTest extends WithDBContainerTest {
     private static final String MISSING_TITLE_ERROR_MESSAGE = "title is missing";
     private static final String MISSING_ACTIVITY_ERROR_MESSAGE = "activity is missing";
     private static final String MISSING_LOCALISATION_ERROR_MESSAGE = "localisation is missing";

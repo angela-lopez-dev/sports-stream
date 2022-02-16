@@ -1,5 +1,6 @@
 package com.example.spstream.controllers.events;
 
+import com.example.spstream.WithDBContainerTest;
 import com.example.spstream.entities.Event;
 import com.example.spstream.repositories.EventRepository;
 import com.example.spstream.util.Mapper;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
-public class EventsDeletionTest {
+public class EventsDeletionTest extends WithDBContainerTest {
 
     @SpyBean
     private EventRepository eventRepository;
