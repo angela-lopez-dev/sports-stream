@@ -1,0 +1,3 @@
+FROM postgres
+ENV POSTGRES_USER spstream
+ENV POSTGRES_PASSWORD password
