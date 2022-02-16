@@ -31,7 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
-
+##Docker
+**/Dockerfile
 ## env vars
 
 **/application.properties
