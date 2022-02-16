@@ -33,7 +33,4 @@ build/
 .vscode/
 ##Docker
 **/Dockerfile
-## env vars
-
-**/application.properties
 
