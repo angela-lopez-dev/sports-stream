@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("run")
+@Profile("!test")
 public class JpaConfig {
     @Value("${DB_URL}")
     String url;

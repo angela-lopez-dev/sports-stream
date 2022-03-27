@@ -8,13 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -43,7 +42,10 @@ public class Event {
     private String activity;
     @NotEmpty(message = "localisation is missing")
     private String localisation;
-    @JsonProperty("organiser_id")
-    @NotEmpty(message = "organiser id is missing")
-    private String organiserId;
+
+    @ManyToOne(optional = false)
+    public User organiser;
+
+    @ManyToMany
+    public List<User> participants;
 }

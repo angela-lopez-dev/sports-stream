@@ -89,7 +89,7 @@ public class EventsCreationTest extends WithDBContainerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(containsString(String.format(errorMessagePattern, event.getOrganiserId()))));
+                .andExpect(content().string(containsString(String.format(errorMessagePattern, event.getOrganiser().getId()))));
         Assertions.assertEquals(initialNbOfEvents,StreamSupport.stream(eventRepository.findAll().spliterator(), false).count() );
     }
 

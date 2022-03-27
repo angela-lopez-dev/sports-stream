@@ -36,6 +36,8 @@ public class Mapper {
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         //allows custom object collection unmarshalling
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
+
         return mapper.readValue(jsonString, listType);
     }
+
 }

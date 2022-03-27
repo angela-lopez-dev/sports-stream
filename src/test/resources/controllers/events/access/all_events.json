@@ -2,20 +2,17 @@
   {
     "title" : "minimal event",
     "activity" : "football",
-    "localisation" : "Cornelia Street",
-    "organiser_id" : "123456"
+    "localisation" : "Cornelia Street"
   },
   {
     "title" : "minimal event 2",
     "activity" : "football",
-    "localisation" : "Cornelia Street",
-    "organiser_id" : "123456"
+    "localisation" : "Cornelia Street"
   },
   {
     "title" : "minimal event 3",
     "activity" : "football",
-    "localisation" : "Cornelia Street",
-    "organiser_id" : "123456"
+    "localisation" : "Cornelia Street"
   }
 
 ]

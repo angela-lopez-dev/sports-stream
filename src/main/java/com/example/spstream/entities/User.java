@@ -8,9 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,7 +17,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Entity
-public class EUser {
+@Table(name="s_user")
+public class User {
     @JsonProperty("first_name")
     private String firstName;
     @JsonProperty("last_name")
@@ -27,4 +27,10 @@ public class EUser {
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
+
+    @OneToMany(mappedBy = "organiser")
+    private List<Event> organisedEvents;
+
+    @ManyToMany(mappedBy = "participants")
+    private List<Event> joinedEvents;
 }
